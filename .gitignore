@@ -2,5 +2,5 @@
 *.pyx
 
 *.pth
-
+*.tar.gz
 *.log
