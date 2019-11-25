@@ -76,7 +76,7 @@ def parse_args():
         help='whether use gpu to train network')
     parser.add_argument('-g', '--gpu', type=str, default='0',
         help='the gpu id to train net')
-    parser.add_argument('-m', '--model', type=str, default='params/bdcn_10000.pth',
+    parser.add_argument('-m', '--model', type=str, default='final-model/bdcn_pretrained_on_bsds500.pth',
         help='the model to test')
     parser.add_argument('--res-dir', type=str, default='result',
         help='the dir to store result')

@@ -12,6 +12,7 @@ from cStringIO import StringIO
 def load_image_with_cache(path, cache=None, lock=None):
 	if cache is not None:
 		if not cache.has_key(path):
+                        print(path)
 			with open(path, 'rb') as f:
 				cache[path] = f.read()
 		return Image.open(StringIO(cache[path]))
@@ -33,7 +34,7 @@ class Data(data.Dataset):
 
 		lst_dir = os.path.join(self.root, self.lst)
 		# self.files = np.loadtxt(lst_dir, dtype=str)
-		with open(lst_dir, 'r') as f:
+		with open("./test.lst", 'r') as f:
 			self.files = f.readlines()
 			self.files = [line.strip().split(' ') for line in self.files]
 
@@ -43,7 +44,7 @@ class Data(data.Dataset):
 	def __getitem__(self, index):
 		data_file = self.files[index]
 		# load Image
-		img_file = self.root + data_file[0]
+		img_file = "datasets/BSR/BSDS500/data/images/test/" + data_file[0]
 		# print(img_file)
 		if not os.path.exists(img_file):
 			img_file = img_file.replace('jpg', 'png')
@@ -52,7 +53,7 @@ class Data(data.Dataset):
 		# load gt image
 		gt_file = self.root + data_file[1]
 		# gt = Image.open(gt_file)
-		gt = load_image_with_cache(gt_file, self.cache)
+		t = load_image_with_cache(gt_file, self.cache)
 		if gt.mode == '1':
 			gt  = gt.convert('L')
 		return self.transform(img, gt)

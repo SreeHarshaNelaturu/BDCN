@@ -26,7 +26,7 @@ def test(model, args):
     test_img = Data(test_root, test_lst, mean_bgr=mean_bgr, scale=[0.5, 1, 1.5])
     testloader = torch.utils.data.DataLoader(
         test_img, batch_size=1, shuffle=False, num_workers=8)
-    nm = np.loadtxt(test_name_lst, dtype=str)
+    nm = np.loadtxt("test.lst", dtype=str)
     assert len(testloader) == len(nm)
 
     save_dir = args.res_dir
@@ -71,7 +71,7 @@ def parse_args():
         help='whether use gpu to train network')
     parser.add_argument('-g', '--gpu', type=str, default='0',
         help='the gpu id to train net')
-    parser.add_argument('-m', '--model', type=str, default='params/bdcn_40000.pth',
+    parser.add_argument('-m', '--model', type=str, default='final-model/bdcn_pretrained_on_bsds500.pth',
         help='the model to test')
     parser.add_argument('--res-dir', type=str, default='result',
         help='the dir to store result')
