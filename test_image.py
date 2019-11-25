@@ -50,35 +50,30 @@ def test(model, args):
     model.eval()
     start_time = time.time()
     all_t = 0
-    for nm in test_lst:
-        #data = cv2.imread(test_root + '/' + nm + '.jpg')
-        data = cv2.imread("horn.jpg")
-        # print(os.path.join(test_root, nm))
-        # data = cv2.resize(data, (data.shape[1]/2, data.shape[0]/2), interpolation=cv2.INTER_LINEAR)
-        data = np.array(data, np.float32)
-        data -= mean_bgr
-        data = data.transpose((2, 0, 1))
-        data = torch.from_numpy(data).float().unsqueeze(0)
-        if args.cuda:
-            data = data.cuda()
-        data = Variable(data)
-        t1 = time.time()
-        out = model(data)
-        if '/' in nm:
-            nm = nm.split('/')[-1]
-        if save_sideouts:
-            out = [F.sigmoid(x).cpu().data.numpy()[0, 0, :, :] for x in out]
-            k = 1
-            for j in xrange(5):
-                cv2.imwrite(os.path.join(save_dir, 's2d_'+str(k), '%s.jpg'%nm[i]), 255-t*255)
-                cv2.imwrite(os.path.join(save_dir, 'd2s_'+str(k), '%s.jpg'%nm), 255-255*t)
-                k += 1
-        else:
-            out = [F.sigmoid(out[-1]).cpu().data.numpy()[0, 0, :, :]]
-        if not os.path.exists(os.path.join(save_dir, 'fuse')):
-            os.mkdir(os.path.join(save_dir, 'fuse'))
-        cv2.imwrite(os.path.join(save_dir, 'fuse/%s.png'%nm.split('/')[-1].split('.')[0]), 255*out[-1])
-        all_t += time.time() - t1
+    data = cv2.imread("horn.jpg")
+    print("hubba")
+    data = np.array(data, np.float32)
+    data -= mean_bgr
+    data = data.transpose((2, 0, 1))
+    data = torch.from_numpy(data).float().unsqueeze(0)
+    if args.cuda:
+        data = data.cuda()
+    data = Variable(data)
+    t1 = time.time()
+    out = model(data)
+    if save_sideouts:
+        out = [F.sigmoid(x).cpu().data.numpy()[0, 0, :, :] for x in out]
+        #k = 1
+        #for j in xrange(5):
+        #    cv2.imwrite(os.path.join(save_dir, 's2d_'+str(k), "%s.jpg"%j), 255-t*255)
+        #    cv2.imwrite(os.path.join(save_dir, 'd2s_'+str(k), '%s.jpg'%j), 255-255*t)
+        #    k += 1
+    else:
+        out = [F.sigmoid(out[-1]).cpu().data.numpy()[0, 0, :, :]]
+    if not os.path.exists(os.path.join(save_dir, 'fuse')):
+        os.mkdir(os.path.join(save_dir, 'fuse'))
+    cv2.imwrite(os.path.join(save_dir, 'fuse/dank.png'), 255*out[-1])
+    all_t += time.time() - t1
     print all_t
     print 'Overall Time use: ', time.time() - start_time
 
