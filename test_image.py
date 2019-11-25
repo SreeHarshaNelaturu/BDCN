@@ -38,8 +38,8 @@ def test(model, args):
     save_sideouts = 1
     if save_sideouts:
         for j in xrange(5):
-            make_dir(os.path.join(save_dir, 's2d_'+str(k)))
-            make_dir(os.path.join(save_dir, 'd2s_'+str(k)))
+            make_dir(os.path.join("./", 's2d_'+str(1)))
+            make_dir(os.path.join("./", 'd2s_'+str(2)))
     mean_bgr = np.array([104.00699, 116.66877, 122.67892])
     save_dir = args.res_dir
     if not os.path.exists(save_dir):
@@ -50,10 +50,9 @@ def test(model, args):
     start_time = time.time()
     all_t = 0
     for nm in test_lst:
-        data = cv2.imread(test_root + '/' + nm + '.jpg')
-        # print(os.path.join(test_root, nm))
-        # data = cv2.resize(data, (data.shape[1]/2, data.shape[0]/2), interpolation=cv2.INTER_LINEAR)
+        data = cv2.imread("poha.jpg")
         data = np.array(data, np.float32)
+        print("ladida",data.shape)
         data -= mean_bgr
         data = data.transpose((2, 0, 1))
         data = torch.from_numpy(data).float().unsqueeze(0)
@@ -79,18 +78,17 @@ def test(model, args):
             os.mkdir(os.path.join(save_dir, 'fuse'))
         cv2.imwrite(os.path.join(save_dir, 'fuse/%s.png'%nm.split('/')[-1].split('.')[0]), 255*out[-1])
         all_t += time.time() - t1
-    print all_t
-    print 'Overall Time use: ', time.time() - start_time
+    print(all_t)
+    print('Overall Time use: ', time.time() - start_time)
 
 def main():
     import time
-    print time.localtime()
+    print(time.localtime())
     args = parse_args()
     os.environ['CUDA_VISIBLE_DEVICES'] = args.gpu
-    model = bdcn.BDCN(rate=args.rate)
-    model.load_state_dict(torch.load('%s' % (args.model)))
-    # print model.fuse.weight.data, model.fuse.bias.data
-    print model.fuse.weight.data
+    model = bdcn.BDCN()
+    model.load_state_dict(torch.load('%s' % (args.model), map_location='cpu'))
+    print(model.fuse.weight.data)
     test(model, args)
 
 def parse_args():

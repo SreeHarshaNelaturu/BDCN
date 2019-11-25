@@ -26,7 +26,7 @@ def test(model, args):
     # test_name_lst = os.path.join(test_root, 'test_id.txt')
     if 'Multicue' in args.dataset:
         test_lst = test_lst % args.k
-        test_name_lst = os.path.join(test_root, 'test%d_id.txt'%args.k)
+        test_name_st = os.path.join(test_root, 'test%d_id.txt'%args.k)
     mean_bgr = np.array(cfg.config_test[args.dataset]['mean_bgr'])
     test_img = Data(test_root, test_lst, mean_bgr=mean_bgr)
     testloader = torch.utils.data.DataLoader(
@@ -65,7 +65,7 @@ def main():
     args = parse_args()
     os.environ['CUDA_VISIBLE_DEVICES'] = args.gpu
     model = bdcn.BDCN()
-    model.load_state_dict(torch.load('%s' % (args.model)))
+    model.load_state_dict(torch.load('%s' % (args.model), map_location='cpu'))
     test(model, args)
 
 def parse_args():
