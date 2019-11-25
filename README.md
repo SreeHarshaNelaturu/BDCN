@@ -1,3 +1,5 @@
+<a href="https://open-app.runwayml.com/?model=sree_harsha/BDCN" target="_blank"><img src="https://open-app.runwayml.com/gh-badge.svg" /></a>
+
 ## [Bi-Directional Cascade Network for Perceptual Edge Detection(BDCN)](https://arxiv.org/pdf/1902.10903.pdf)
 
 This paper proposes a Bi-Directional Cascade Network for edge detection. By introducing a bi-directional cascade structure to enforce each layer to focus on a specific scale, BDCN trains each network layer with a layer-specific supervision. To enrich the multi-scale representations learned with a shallow network, we further introduce a Scale Enhancement
